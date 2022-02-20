@@ -8,8 +8,6 @@ void swap(int* n1, int* n2)
 
 void handleline(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, long long int (*handle_tile)(int, int))
 {
-	if (x1 >= mapsizeX || x2 >= mapsizeX || y1 >= mapsizeY || y2 >= mapsizeY) return;
-
 	if (x1 == x2 && y1 == y2) goto nodir;
 	else if (y1 > y2 || (y1 == y2 && x1 > x2))
 	{
