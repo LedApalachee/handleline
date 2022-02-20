@@ -1,3 +1,5 @@
+#include "handleline.h"
+
 void swap(int* n1, int* n2)
 {
 	int t = *n1;
@@ -31,9 +33,10 @@ void handleline(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int 
 
 
 int dx, dy, D;
+char returning_value;
 
 nodir:
-	handle_tile(x1,y1);				/*    HERE    */
+	returning_value = handle_tile(x1,y1);
 	return;
 
 
@@ -43,7 +46,8 @@ NWW:
 	D = dy * 2 - dx;
 	for (int x = x2, y = y1; x <= x1; ++x)
 	{
-		handle_tile(x1-x+x2, y);						/*    HERE    */
+		returning_value = handle_tile(x1-x+x2, y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
 		if (D > 0)
 		{
 			y++;
@@ -55,7 +59,10 @@ NWW:
 
 NW:
 	for (int x = x1, y = y1; x >= x2 && x >= 0; --x, ++y)
-		handle_tile(x,y);									/*    HERE    */
+	{
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
 	return;
 
 NNW:
@@ -64,7 +71,8 @@ NNW:
 	D = dx * 2 - dy;
 	for (int x = x2, y = y1; y <= y2; ++y)
 	{
-		handle_tile(x1-x+x2, y);						/*    HERE    */
+		returning_value = handle_tile(x1-x+x2, y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
 		if (D > 0)
 		{
 			x++;
@@ -76,7 +84,10 @@ NNW:
 
 N:
 	for (int y = y1; y <= y2; ++y)
-		handle_tile(x1,y);						/*    HERE    */
+	{
+		returning_value = handle_tile(x1,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
 	return;
 
 NNE:
@@ -85,7 +96,8 @@ NNE:
 	D = dx * 2 - dy;
 	for (int x = x1, y = y1; y <= y2; ++y)
 	{
-		handle_tile(x,y);							/*    HERE    */
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
 		if (D > 0)
 		{
 			x++;
@@ -97,7 +109,10 @@ NNE:
 
 NE:
 	for (int x = x1, y = y1; x <= x2; ++x, ++y)
-		handle_tile(x,y);							/*    HERE    */
+	{
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
 	return;
 
 NEE:
@@ -106,7 +121,8 @@ NEE:
 	D = dy * 2 - dx;
 	for (int x = x1, y = y1; x <= x2; ++x)
 	{
-		handle_tile(x,y);							/*    HERE    */
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
 		if (D > 0)
 		{
 			y++;
@@ -119,6 +135,9 @@ NEE:
 
 E:
 	for (int x = x1; x <= x2; ++x)
-		handle_tile(x,y1);					/*    HERE    */
+	{
+		returning_value = handle_tile(x,y1);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
 	return;
 }
