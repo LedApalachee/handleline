@@ -3,7 +3,7 @@
 
 #define BREAK_HANDLING_LINE 1
 
-void handleline(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, long long int (*handle_tile)(int, int));
+void handleline(int x1, int y1, int x2, int y2, long long int (*handle_tile)(int, int));
 
 #endif
 

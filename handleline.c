@@ -1,34 +1,48 @@
 #include "handleline.h"
 
-void swap(int* n1, int* n2)
-{
-	int t = *n1;
-	*n1 = *n2;
-	*n2 = t;
-}
 
-
-void handleline(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, long long int (*handle_tile)(int, int))
+void handleline(int x1, int y1, int x2, int y2, long long int (*handle_tile)(int, int))
 {
 	if (x1 == x2 && y1 == y2) goto nodir;
-	else if (y1 > y2 || (y1 == y2 && x1 > x2))
+	if (x1 == x2)
 	{
-		swap(&x1, &x2);
-		swap(&y1, &y2);
+		if (y1 < y2) goto N;
+		else goto S;
 	}
-	if (y1 == y2) goto E;
-	else if (x1 == x2) goto N;
-	else if (x1 < x2)
+	if (y1 == y2)
 	{
-		if ((y2-y1)/(x2-x1) < 1) goto NEE;
-		else if (y2-y1 == x2-x1) goto NE;
-		else goto NNE;
+		if (x1 < x2) goto E;
+		else goto W;
+	}
+	if (x1 < x2)
+	{
+		if (y1 < y2)
+		{
+			if (x2-x1 == y2-y1) goto NE;
+			if (x2-x1 > y2-y1) goto NEE;
+			else goto NNE;
+		}
+		else
+		{
+			if (x2-x1 == y1-y2) goto SE;
+			if (x2-x1 > y1-y2) goto SEE;
+			else goto SSE;
+		}
 	}
 	else
 	{
-		if ((y2-y1)/(x1-x2) < 1) goto NWW;
-		else if (y2-y1 == x1-x2) goto NW;
-		else goto NNW;
+		if (y1 < y2)
+		{
+			if (x1-x2 == y2-y1) goto NW;
+			if (x1-x2 > y2-y1) goto NWW;
+			else goto NNW;
+		}
+		else
+		{
+			if (x1-x2 == y1-y2) goto SW;
+			if (x1-x2 > y1-y2) goto SWW;
+			else goto SSW;
+		}
 	}
 
 
@@ -39,14 +53,13 @@ nodir:
 	returning_value = handle_tile(x1,y1);
 	return;
 
-
 NWW:
 	dx = x1 - x2;
 	dy = y2 - y1;
 	D = dy * 2 - dx;
-	for (int x = x2, y = y1; x <= x1; ++x)
+	for (int x = x1, y = y1; x >= x2; --x)
 	{
-		returning_value = handle_tile(x1-x+x2, y);
+		returning_value = handle_tile(x,y);
 		if (returning_value == BREAK_HANDLING_LINE) break;
 		if (D > 0)
 		{
@@ -69,13 +82,13 @@ NNW:
 	dx = x1 - x2;
 	dy = y2 - y1;
 	D = dx * 2 - dy;
-	for (int x = x2, y = y1; y <= y2; ++y)
+	for (int x = x1, y = y1; y <= y2; ++y)
 	{
-		returning_value = handle_tile(x1-x+x2, y);
+		returning_value = handle_tile(x,y);
 		if (returning_value == BREAK_HANDLING_LINE) break;
 		if (D > 0)
 		{
-			x++;
+			x--;
 			D -= dy * 2;
 		}
 		D += dx * 2;
@@ -132,12 +145,111 @@ NEE:
 	}
 	return;
 
-
 E:
 	for (int x = x1; x <= x2; ++x)
 	{
 		returning_value = handle_tile(x,y1);
 		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
+	return;
+
+W:
+	for (int x = x1; x >= x2; --x)
+	{
+		returning_value = handle_tile(x,y1);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
+	return;
+
+SWW:
+	dx = x1 - x2;
+	dy = y1 - y2;
+	D = dy * 2 - dx;
+	for (int x = x1, y = y1; x >= x2; --x)
+	{
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (D > 0)
+		{
+			y--;
+			D -= dx * 2;
+		}
+		D += dy * 2;
+	}
+	return;
+
+SW:
+	for (int x = x1, y = y1; x >= x2; --x, --y)
+	{
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
+	return;
+
+SSW:
+	dx = x1 - x2;
+	dy = y1 - y2;
+	D = dx * 2 - dy;
+	for (int x = x1, y = y1; y >= y2; --y)
+	{
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (D > 0)
+		{
+			x--;
+			D -= dy * 2;
+		}
+		D += dx * 2;
+	}
+	return;
+
+S:
+	for (int y = y1; y >= y2; --y)
+	{
+		returning_value = handle_tile(x1,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
+	return;
+
+SSE:
+	dx = x2 - x1;
+	dy = y1 - y2;
+	D = dx * 2 - dy;
+	for (int x = x1, y = y1; y >= y2; --y)
+	{
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (D > 0)
+		{
+			x++;
+			D -= dy * 2;
+		}
+		D += dx * 2;
+	}
+	return;
+
+SE:
+	for (int x = x1, y = y1; x <= x2; ++x, --y)
+	{
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+	}
+	return;
+
+SEE:
+	dx = x2 - x1;
+	dy = y1 - y2;
+	D = dy * 2 - dx;
+	for (int x = x1, y = y1; x <= x2; ++x)
+	{
+		returning_value = handle_tile(x,y);
+		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (D > 0)
+		{
+			y--;
+			D -= dx * 2;
+		}
+		D += dy * 2;
 	}
 	return;
 }
