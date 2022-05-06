@@ -1,7 +1,7 @@
 #include "handleline.h"
 
 
-void handleline(int x1, int y1, int x2, int y2, long long int (*handle_tile)(int, int))
+void handleline(int x1, int y1, int x2, int y2, int (*handle_tile)(int, int))
 {
 	if (x1 == x2 && y1 == y2) goto nodir;
 	if (x1 == x2)
@@ -60,7 +60,7 @@ NWW:
 	for (int x = x1, y = y1; x >= x2; --x)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 		if (D > 0)
 		{
 			y++;
@@ -74,7 +74,7 @@ NW:
 	for (int x = x1, y = y1; x >= x2 && x >= 0; --x, ++y)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 	}
 	return;
 
@@ -85,7 +85,7 @@ NNW:
 	for (int x = x1, y = y1; y <= y2; ++y)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 		if (D > 0)
 		{
 			x--;
@@ -99,7 +99,7 @@ N:
 	for (int y = y1; y <= y2; ++y)
 	{
 		returning_value = handle_tile(x1,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 	}
 	return;
 
@@ -110,7 +110,7 @@ NNE:
 	for (int x = x1, y = y1; y <= y2; ++y)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 		if (D > 0)
 		{
 			x++;
@@ -124,7 +124,7 @@ NE:
 	for (int x = x1, y = y1; x <= x2; ++x, ++y)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 	}
 	return;
 
@@ -135,7 +135,7 @@ NEE:
 	for (int x = x1, y = y1; x <= x2; ++x)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 		if (D > 0)
 		{
 			y++;
@@ -149,7 +149,7 @@ E:
 	for (int x = x1; x <= x2; ++x)
 	{
 		returning_value = handle_tile(x,y1);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 	}
 	return;
 
@@ -157,7 +157,7 @@ W:
 	for (int x = x1; x >= x2; --x)
 	{
 		returning_value = handle_tile(x,y1);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 	}
 	return;
 
@@ -168,7 +168,7 @@ SWW:
 	for (int x = x1, y = y1; x >= x2; --x)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 		if (D > 0)
 		{
 			y--;
@@ -182,7 +182,7 @@ SW:
 	for (int x = x1, y = y1; x >= x2; --x, --y)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 	}
 	return;
 
@@ -193,7 +193,7 @@ SSW:
 	for (int x = x1, y = y1; y >= y2; --y)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 		if (D > 0)
 		{
 			x--;
@@ -207,7 +207,7 @@ S:
 	for (int y = y1; y >= y2; --y)
 	{
 		returning_value = handle_tile(x1,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 	}
 	return;
 
@@ -218,7 +218,7 @@ SSE:
 	for (int x = x1, y = y1; y >= y2; --y)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 		if (D > 0)
 		{
 			x++;
@@ -232,7 +232,7 @@ SE:
 	for (int x = x1, y = y1; x <= x2; ++x, --y)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 	}
 	return;
 
@@ -243,7 +243,7 @@ SEE:
 	for (int x = x1, y = y1; x <= x2; ++x)
 	{
 		returning_value = handle_tile(x,y);
-		if (returning_value == BREAK_HANDLING_LINE) break;
+		if (returning_value == BREAK_HANDLELINE) break;
 		if (D > 0)
 		{
 			y--;
